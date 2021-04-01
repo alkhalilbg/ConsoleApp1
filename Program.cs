@@ -7,6 +7,10 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+//using DocumentFormat.OpenXml.Spreadsheet;
+using Aspose.Cells;
+using Aspose.Cells.Utility;
+using DocumentFormat.OpenXml.Drawing.Charts;
 
 namespace ConsoleApp1
 {
@@ -42,7 +46,28 @@ namespace ConsoleApp1
             {
                 Console.WriteLine(a.FileName+" "+a.FilePath+" "+a.FileSize+" "+a.FileHash);
             }
-             
+
+            // Create a Workbook object
+            Workbook workbook = new Workbook();
+            Worksheet worksheet = workbook.Worksheets[0];
+
+            // Read JSON File
+            string jsonInput = File.ReadAllText(@"C:\Users\AlKhalilAlMaamari\Documents\Data Managment\Json\Files Info.txt");
+
+            // Set JsonLayoutOptions
+            JsonLayoutOptions options = new JsonLayoutOptions();
+            options.ArrayAsTable = true;
+
+            // Import JSON Data
+            JsonUtility.ImportData(jsonInput, worksheet.Cells, 0, 0, options);
+
+            // Save Excel file
+            workbook.Save("Import-Data-JSON-To-Excel.xlsx");
+            workbook.Save("Import-Data-JSON-To-Excel.csv");
+
+            
+
+
 
         }
         
